@@ -21,7 +21,6 @@ public class CountDuplicateNumber {
                 output.put(ch, output.get(ch)+1);
 
             }else{
-
                 output.put(ch, 1);
             }
 
