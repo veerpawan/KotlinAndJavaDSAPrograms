@@ -4,9 +4,9 @@ public class ReverseWordsString {
 
     static void reverseWords() {
 
-        String name = "welcome to gfg";
+        String name = "welcome to coding";
         String reverse = "";
-        for (int i = name.length() - 1; i > 0; i--) {
+        for (int i = name.length() - 1; i >= 0; i--) {
             reverse = reverse + name.charAt(i);
         }
         System.out.println(reverse);

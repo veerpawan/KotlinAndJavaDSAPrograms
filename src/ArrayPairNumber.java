@@ -23,7 +23,7 @@ public class ArrayPairNumber {
 
     public static void main(String[] args) {
 
-        int[] arrayname = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        int[] arrayname = {1, 2, 3, 5, 5, 6, 6, 8, 1};
         int size= arrayname.length;
 
        if(checkPairSum(arrayname, size, 7)){
