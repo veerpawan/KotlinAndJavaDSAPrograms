@@ -21,7 +21,7 @@ public class DuplicateInArray {
     }
 
     public static void main(String[] args) {
-        int arr[] ={0, 3, 1, 5, 4, 3, 2};
+        int arr[] ={0, 3, 1, 5, 5, 3, 2};
         System.out.println(duplicateArr(arr));
     }
 }
