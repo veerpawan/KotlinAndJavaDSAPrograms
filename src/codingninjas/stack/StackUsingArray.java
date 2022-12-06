@@ -36,11 +36,21 @@ public class StackUsingArray {
     public void push(int elem) throws StackFullException {
         if (size() == data.length) {
 
-            StackFullException s = new StackFullException();
-            throw s;
+            doubleCapacity();
+
+            //StackFullException s = new StackFullException();
+            //throw s;
         }
         top++;
         data[top] = elem;
+    }
+
+    private void doubleCapacity() {
+        int temp[] = data;
+        data = new int[2 * temp.length];
+        for (int i = 0; i <= top; i++) {
+            data[i] = temp[i];
+        }
     }
 
     public int pop() throws StackEmptyException {
