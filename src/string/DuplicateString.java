@@ -8,16 +8,13 @@ public class DuplicateString {
     public static void reultArr(String[] arr) {
         Map<String, Integer> map = new HashMap<String, Integer>();
         for (int i = 0; i < arr.length; i++) {
-            if (!map.containsKey(arr[i])) {
-                //map.put(arr[i], 1);
+            if (map.containsKey(arr[i])) {
+                map.put(arr[i], map.get(arr[i]) + 1);
             } else {
-                map.put(arr[i], i + 1);
-
+                map.put(arr[i], 1);
             }
-
         }
-
-        for (Map.Entry<String,Integer> entry : map.entrySet())
+        for (Map.Entry<String, Integer> entry : map.entrySet())
             System.out.println("Key = " + entry.getKey() +
                     ", Value = " + entry.getValue());
     }

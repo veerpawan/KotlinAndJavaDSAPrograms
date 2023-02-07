@@ -4,30 +4,30 @@ import java.util.HashMap;
 
 public class ArrayIntersection {
 
-    public static void printIntersection(int[] arr1, int[] arr2){
+    public static void printIntersection(int[] arr1, int[] arr2) {
 
         HashMap<Integer, Integer> map = new HashMap<>();
 
-        for(int i=0;i<arr1.length;i++){
+        for (int i = 0; i < arr1.length; i++) {
 
-            if(map.containsKey(arr1[i])){
+            if (map.containsKey(arr1[i])) {
 
                 //int value = map.get(arr1[i]);
-                map.put(arr1[i], (map.get(arr1[i])+1));
+                map.put(arr1[i], (map.get(arr1[i]) + 1));
 
-            }else{
+            } else {
                 map.put(arr1[i], 1);
             }
         }
 
 
-        for(int i =0;i<arr2.length;i++){
+        for (int i = 0; i < arr2.length; i++) {
 
-            if(map.containsKey(arr2[i])){
+            if (map.containsKey(arr2[i])) {
                 int frequency = map.get(arr2[i]);
-                if(frequency>0){
-                    System.out.println(arr2[i]+" ");
-                    map.put(arr2[i], frequency-1);
+                if (frequency > 0) {
+                    System.out.println(arr2[i] + " ");
+                    map.put(arr2[i], frequency - 1);
                 }
             }
         }
@@ -37,8 +37,8 @@ public class ArrayIntersection {
     }
 
     public static void main(String[] args) {
-        int[] arr1 ={1,4,5,2,2,3,6,5,3,2};
-        int[] arr2 = {2,3,2,6,6,5,1};
-        printIntersection(arr1,arr2);
+        int[] arr1 = {1, 4, 5, 2, 2, 3, 6, 5, 3, 2};
+        int[] arr2 = {2, 3, 2, 6, 6, 5, 1};
+        printIntersection(arr1, arr2);
     }
 }

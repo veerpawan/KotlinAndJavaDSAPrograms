@@ -9,6 +9,7 @@ public class HashmapUse {
         HashMap<String, Integer> map = new HashMap<>();
         map.put("abc", 1);
         map.put("def", 2);
+        map.put("def", 2);
         map.put("ghi", 3);
         map.put("jkl", 4);
         map.put("mno", 5);
@@ -18,12 +19,25 @@ public class HashmapUse {
             System.out.println(s);
         }
 
+        //check presets
         if(map.containsKey("def")){
             System.out.println("def available");
         }
 
+        //this function is big o n because we perform operation on value not on key
         if(map.containsValue(4)){
             System.out.println("4 is vailable");
+        }
+
+        //remove value
+        int value = map.remove("def");
+        System.out.println(value);
+
+
+        //iterate over map
+        Set<String> keys = map.keySet();
+        for(String str: keys){
+            System.out.println(str);
         }
     }
 }
