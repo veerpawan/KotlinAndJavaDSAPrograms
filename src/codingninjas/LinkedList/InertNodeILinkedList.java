@@ -50,9 +50,20 @@ public class InertNodeILinkedList {
         temp.next = newNode;
         return head;
     }
+
+    public static Node<Integer> midPoint(Node<Integer> head){
+        Node<Integer> slow = head, fast = head;
+        while(head.next!= null && head.next.next!= null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
     public static void main(String[] args) {
         Node<Integer> head = takeInput();
-       head =  insert(head, 80,3 );
+        Node<Integer> mid = midPoint(head);
+        System.out.println(mid.data);
+       //head =  insert(head, 80,3 );
        print(head);
     }
 }
