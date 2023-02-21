@@ -4,6 +4,10 @@ import java.util.Scanner;
 
 public class BinaryTreeUse {
 
+    //mostly questions come from the binary tree
+    // every node have maximum two children's
+    //in trees mostly we use recursion.in some cases we don't use recursion like level vise tree
+
     public static void printTree(BinaryTreeNode<Integer> root) {
         if (root == null) {
             return;
@@ -43,6 +47,7 @@ public class BinaryTreeUse {
         return root;
     }
 
+    //for level wise we need queue
     public static BinaryTreeNode<Integer> takeInputLevelWise() {
         Scanner s = new Scanner(System.in);
 
@@ -89,12 +94,12 @@ public class BinaryTreeUse {
         return 1 + leftNodeCount + rightNumNodes;
     }
 
-    public static int largest(BinaryTreeNode<Integer> root) {
+    public static int largestNode(BinaryTreeNode<Integer> root) {
         if (root == null) {
             return -1;
         }
-        int largestLeft = largest(root.left);
-        int largestRight = largest(root.right);
+        int largestLeft = largestNode(root.left);
+        int largestRight = largestNode(root.right);
 
         return Math.max(root.data, Math.max(largestLeft, largestRight));
 
@@ -177,6 +182,7 @@ public class BinaryTreeUse {
 
 
 
+    //height will be defined based on how deep is tree
     public static int height(BinaryTreeNode<Integer> root) {
         if (root == null) {
             return 0;
@@ -189,12 +195,20 @@ public class BinaryTreeUse {
 
 
     public static void main(String[] args) {
+
+         /*BinaryTreeNode<Integer> root = new BinaryTreeNode<>(1);
+        BinaryTreeNode<Integer> node1 = new BinaryTreeNode<>(2);
+
+        root.left = node1;
+        BinaryTreeNode<Integer> node2 = new BinaryTreeNode<>(3);
+        root.right = node2;*/
+
         //Scanner s = new Scanner(System.in);
         //BinaryTreeNode<Integer> root = takeInput(s);
         BinaryTreeNode<Integer> root = takeInputLevelWise();
         printTree(root);
         System.out.println("Number of nodes" + countNodes(root));
-        System.out.println("Largest if " + largest(root));
+        System.out.println("Largest if " + largestNode(root));
         System.out.println("number of leaves " + numOfLeaves(root));
         System.out.println("print AT DEPTH K ");
         printAtDeptK(root, 2);
@@ -204,12 +218,7 @@ public class BinaryTreeUse {
         //s.close();
 
 
-        /*BinaryTreeNode<Integer> root = new BinaryTreeNode<>(1);
-        BinaryTreeNode<Integer> node1 = new BinaryTreeNode<>(2);
 
-        root.left = node1;
-        BinaryTreeNode<Integer> node2 = new BinaryTreeNode<>(3);
-        root.right = node2;*/
 
     }
 }
