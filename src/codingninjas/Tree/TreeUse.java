@@ -7,6 +7,8 @@ import java.util.Scanner;
 
 public class TreeUse {
 
+
+    // pre-order traversal always print first left and post order traversal always print the down to top approach
     public static void preorder(TreeNode<Integer> root){
         if(root == null){
             return;
@@ -18,7 +20,7 @@ public class TreeUse {
         }
     }
 
-
+    //depth of tree
     public static void printAtK(TreeNode<Integer> root, int k) {
         if (k < 0) {
             return;
@@ -66,7 +68,6 @@ public class TreeUse {
 
     }
 
-
     public static TreeNode<Integer> takeInput(Scanner sc) {
         int n;
 
@@ -84,6 +85,8 @@ public class TreeUse {
 
     }
 
+
+    //internally we use queue to take input and print level wise
     public static TreeNode<Integer> takeInputLevelWise() {
         Scanner s = new Scanner(System.in);
         System.out.println("enter root data");
@@ -105,6 +108,7 @@ public class TreeUse {
                     pendingNode.enqueue(childNode);
                 }
             } catch (codingninjas.Tree.QueueEmptyException e) {
+               // it shouldnt come here
                 return null;
 
             }
@@ -124,9 +128,6 @@ public class TreeUse {
             print(root.children.get(i));
         }
     }
-
-
-
 
     public static void main(String[] args) {
 
