@@ -181,6 +181,14 @@ public class BinaryTreeUse {
     }
 
 
+    public void inorder(BinaryTreeNode<Integer> root){
+        if(root==null){
+            return;
+        }
+        inorder(root.left);
+        System.out.println(root.data+ " ");
+        inorder(root.right);
+    }
 
     //height will be defined based on how deep is tree
     public static int height(BinaryTreeNode<Integer> root) {
@@ -192,6 +200,7 @@ public class BinaryTreeUse {
         return 1 + Math.max(leftHeight, rightHeight);
 
     }
+
 
 
     public static void main(String[] args) {
