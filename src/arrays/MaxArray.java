@@ -1,3 +1,5 @@
+package arrays;
+
 public class MaxArray {
 
     public static int findMax(int arr[]) {
