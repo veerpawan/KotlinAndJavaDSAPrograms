@@ -1,4 +1,4 @@
-package geeksforgeeks.searching;
+package searching;
 
 public class LastIndex {
 
