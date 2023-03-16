@@ -1,4 +1,4 @@
-package codingninjas;
+package sorting;
 
 public class BubbleSort {
 
@@ -9,7 +9,7 @@ public class BubbleSort {
         for (int i = 0; i < arr.length-1; i++) {
 
             int smallest = i;
-            for (int j = i + 1; j < arr.length; j++) {
+            for (int j = i + 1; j < arr.length-i; j++) {
 
                 if (arr[smallest] > arr[j]) {
                     smallest = j;
@@ -30,7 +30,7 @@ public class BubbleSort {
     //bubble sort
     public static void bubbleSort(int[] arr) {
 
-        for (int i = 0; i < arr.length; i++) {
+        for (int i = 0; i < arr.length-1; i++) {
 
             for (int j = i + 1; j < arr.length; j++) {
 
@@ -49,7 +49,7 @@ public class BubbleSort {
 
     public static void main(String[] args) {
         int arr[] = {4, 4, 0, 1, 2, 11, 1, 0, 0};
-        //bubbleSort(arr);
+        bubbleSort(arr);
         //selectionSort(arr);
         //insertionSort(arr);
     }

@@ -23,7 +23,7 @@ public class PalindromeNumber {
     public static void main(String[] args) {
 
         //time complaixity is thita d
-        int number = 5665;
+        int number = 121;
 
         System.out.println(isPalindorormoe(number));
 
