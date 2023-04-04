@@ -1,0 +1,7 @@
+class findNum {
+
+    fun main(){
+
+
+    }
+}

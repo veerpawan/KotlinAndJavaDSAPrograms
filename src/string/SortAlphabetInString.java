@@ -9,7 +9,7 @@ public class SortAlphabetInString {
 
         String first = "";
         String second = "";
-        int temp;
+        char temp;
 
 
         for (int i = 0; i < abt.length; i++) {
