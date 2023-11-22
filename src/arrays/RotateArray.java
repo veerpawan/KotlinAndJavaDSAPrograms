@@ -14,10 +14,6 @@ public class RotateArray {
             //arr[idx] = arr[i];
             //idx++;
         }
-
-
-
-
         System.out.println(Arrays.toString(arr));
     }
     public static void main(String[] args) {
