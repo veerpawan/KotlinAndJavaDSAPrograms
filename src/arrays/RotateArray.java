@@ -13,6 +13,7 @@ public class RotateArray {
             System.out.println(arr[i]);
             //arr[idx] = arr[i];
             //idx++;
+
         }
         System.out.println(Arrays.toString(arr));
     }
