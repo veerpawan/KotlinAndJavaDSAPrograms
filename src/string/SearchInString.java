@@ -22,7 +22,4 @@ public class SearchInString {
         }
         return false;
     }
-
-
-
 }
