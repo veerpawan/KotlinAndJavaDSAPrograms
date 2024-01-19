@@ -1,4 +1,4 @@
-package codingblocks;
+package codingblocks.L123;
 
 import java.util.Scanner;
 
@@ -9,6 +9,8 @@ public class SumOfNNaturalNumber {
         int naturalNum = sc.nextInt();
         int sum = 0;
         int num = 1;
+
+
         while (num <= naturalNum) {
             sum = sum + num;
             num++;

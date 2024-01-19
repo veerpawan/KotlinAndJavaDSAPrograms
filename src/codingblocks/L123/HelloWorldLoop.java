@@ -1,4 +1,4 @@
-package codingblocks;
+package codingblocks.L123;
 
 public class HelloWorldLoop {
     public static void main(String[] args) {

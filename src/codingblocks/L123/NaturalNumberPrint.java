@@ -1,4 +1,4 @@
-package codingblocks;
+package codingblocks.L123;
 
 import java.util.Scanner;
 
