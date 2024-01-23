@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Pattern_q_7 {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+       /* Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
 
         int row = 1;
@@ -18,7 +18,12 @@ public class Pattern_q_7 {
                 i++;
             }
             int j = 1;
-            while (j <= nos && j==n) {
+            while (j <= nst) {
+
+                if(nst==1 || nst ==n){
+                    System.out.print();
+                }
+
                 System.out.print(" ");
                 j++;
             }
@@ -26,6 +31,6 @@ public class Pattern_q_7 {
             nst = nst - 2;
             System.out.println();
             row++;
-        }
+        }*/
     }
 }

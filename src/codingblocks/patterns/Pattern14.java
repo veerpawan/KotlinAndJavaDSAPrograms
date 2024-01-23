@@ -1,34 +1,35 @@
 package codingblocks.patterns;
 
-import sun.nio.ch.sctp.SctpNet;
-
 import java.util.Scanner;
 
-public class Pattern_q_11 {
+public class Pattern14 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
 
         int row = 1;
-        int nos = n - 1;
         int nst = 1;
-        while (row <= n) {
+        int nsp=n-1;
+
+        while (row <= 2 * n - 1) {
             int i = 1;
-            while (i <= nos) {
+            while (i <=nsp) {
                 System.out.print(" ");
                 i++;
             }
             int j = 1;
             while (j <= nst) {
-                if (j % 2 == 0) {
-                    System.out.print(" ");
-                } else {
-                    System.out.print("*");
-                }
+                System.out.print("*");
                 j++;
             }
-            nst = nst + 2;
-            nos--;
+//preparation for the mirror row
+            if (row < n) {
+                nst++;
+                nsp--;
+            } else {
+                nst--;
+                nsp++;
+            }
             System.out.println();
             row++;
         }

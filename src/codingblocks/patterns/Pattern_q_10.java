@@ -8,22 +8,24 @@ public class Pattern_q_10 {
         Scanner sc=new Scanner(System.in);
         int n= sc.nextInt();
         int row=1;
-        int nst=n;
+        int nst=9;
         int nos =0;
 
         while(row<=n){
 
+            int j=1;
+            while(j<=nos){
+                System.out.print(" "+" ");
+                j++;
+            }
+
             int i=1;
             while (i<=nst){
-                System.out.print("*");
+                System.out.print("*"+" ");
                 i++;
             }
 
-            int j=1;
-            while(j<=nos){
-                System.out.print(" ");
-                j++;
-            }
+
             nos++;
             nst =nst-2;
             System.out.println();

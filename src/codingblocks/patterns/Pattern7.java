@@ -8,24 +8,30 @@ public class Pattern7 {
         Scanner sc = new Scanner(System.in);
         int nor = sc.nextInt();
         int row = 1;
-        int n_o_space = nor - 1;
-        int n_o_s = 1;
+        int nos = 0;
+
         while (row <= nor) {
-            int i = 1;
-            while (i <= n_o_space) {
-                System.out.print(" ");
-                i++;
-            }
+
             int j = 1;
-            while (j <= n_o_s) {
-                System.out.print("*");
+            while (j <= nor) {
+                if (row == 1 || row == nor) {
+                    System.out.print("*" + " ");
+
+                } else {
+                    if (j == 1) {
+                        System.out.print("*" + " ");
+                    } else if (j == nor) {
+                        System.out.print("*" + " ");
+                    } else {
+                        System.out.print(" " + " ");
+                    }
+                }
                 j++;
             }
-            //preparation for next row
-            n_o_space--;
-            n_o_s++;
             System.out.println();
             row++;
         }
+
     }
 }
+
