@@ -19,6 +19,7 @@ sealed class SealedClassExample {
 }
 
 
+
 fun main() {
     //val obj = SealedClassExample.A()
     //obj.printA()
