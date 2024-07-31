@@ -20,6 +20,23 @@ sealed class SealedClassExample {
 
 
 fun main() {
-    val obj = SealedClassExample.A()
-    obj.printA()
+    //val obj = SealedClassExample.A()
+    //obj.printA()
+
+    lateinit var name:String
+
+   fun initialize(){
+       name = "pawan"
+   }
+
+
+
+
+
+    val sum = { a: Int, b: Int -> a + b }
+
+    val result = sum(3,4)
+    println(result)
+
+
 }
