@@ -9,15 +9,47 @@ public class TreeUse {
 
 
     // pre-order traversal always print first left and post order traversal always print the down to top approach
-    public static void preorder(TreeNode<Integer> root){
-        if(root == null){
+    public static void preorder(TreeNode<Integer> root) {
+        if (root == null) {
             return;
         }
-        System.out.println(root.data+ " ");
-        for(int i = 0; i<root.children.size();i++){
+        System.out.println(root.data + " ");
+        for (int i = 0; i < root.children.size(); i++) {
             preorder(root.children.get(i));
 
         }
+    }
+
+    public static void postorder(TreeNode<Integer> root) {
+        if (root == null) {
+            return;
+        }
+        //
+        for (int i = 0; i < root.children.size(); i++) {
+            preorder(root.children.get(i));
+        }
+        System.out.println(root.data + " ");
+    }
+
+    public static int findHeight(TreeNode<Integer> root) {
+        if (root == null) {
+            return 0;
+        }
+
+        // Base case: if the root has no children, the height is 1
+        if (root.children.isEmpty()) {
+            return 1;
+        }
+        int maxHeight = 0;
+        for (int i = 0; i < root.children.size(); i++) {
+            int childHeight = findHeight(root.children.get(i));
+            if (childHeight > maxHeight) {
+                maxHeight = childHeight;
+            }
+
+        }
+        return 1 + maxHeight;
+
     }
 
     //depth of tree
@@ -49,6 +81,9 @@ public class TreeUse {
     }
 
     public static int numNodes(TreeNode<Integer> root) {
+        if (root == null) {
+            return 0;
+        }
         int count = 1;
         for (int i = 0; i < root.children.size(); i++) {
             count += numNodes(root.children.get(i));
@@ -58,14 +93,21 @@ public class TreeUse {
     }
 
     public static int sumOfAllNode(TreeNode<Integer> root) {
-
-        int sum = root.data;
-        for (int i = 0; i < root.children.size(); i++) {
-            sum += numNodes(root.children.get(i));
+        // Base case: if the root is null, return 0
+        if (root == null) {
+            return 0;
         }
-        System.out.println(sum);
-        return sum;
 
+        // Initialize sum with the root's data
+        int sum = root.data;
+
+        // Use a traditional for loop to iterate over children
+        for (int i = 0; i < root.children.size(); i++) {
+            TreeNode<Integer> child = root.children.get(i);
+            sum += sumOfAllNode(child);
+        }
+
+        return sum;
     }
 
     public static TreeNode<Integer> takeInput(Scanner sc) {
@@ -108,7 +150,7 @@ public class TreeUse {
                     pendingNode.enqueue(childNode);
                 }
             } catch (codingninjas.Tree.QueueEmptyException e) {
-               // it shouldnt come here
+                // it shouldnt come here
                 return null;
 
             }
@@ -137,11 +179,13 @@ public class TreeUse {
 
         TreeNode<Integer> root = takeInputLevelWise();
         print(root);
-        System.out.println(largest(root));
-        System.out.println(numNodes(root));
+        //System.out.println(largest(root));
+        // System.out.println(numNodes(root));
+        //System.out.println(sumOfAllNode(root));
+        System.out.println(findHeight(root));
         //printAtK(root, 2);
-        preorder(root);
-        System.out.println();
+        //preorder(root);
+        //System.out.println();
         /*TreeNode<Integer> root = new TreeNode<Integer>(4);
         TreeNode<Integer> node1 = new TreeNode<Integer>(2);
         TreeNode<Integer> node2 = new TreeNode<Integer>(3);
@@ -162,4 +206,5 @@ public class TreeUse {
         System.out.println(root);*/
 
     }
+
 }

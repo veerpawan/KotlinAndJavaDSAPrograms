@@ -105,14 +105,14 @@ public class BinaryTreeUse {
 
     }
 
-    public static int numOfLeaves(BinaryTreeNode<Integer> root) {
+    public static int numOfLeafNodes(BinaryTreeNode<Integer> root) {
         if (root == null) {
             return 0;
         }
         if (root.left == null && root.right == null) {
             return 1;
         }
-        return numOfLeaves(root.left) + numOfLeaves(root.right);
+        return numOfLeafNodes(root.left) + numOfLeafNodes(root.right);
     }
 
     public static void printAtDeptK(BinaryTreeNode<Integer> root, int k) {
@@ -201,6 +201,22 @@ public class BinaryTreeUse {
 
     }
 
+    public static boolean isNodePresent(BinaryTreeNode<Integer> root, int x) {
+        if(root == null){
+            return false;
+        }
+        if(root.data .equals(x)){
+            return true;
+        }
+        boolean isPresentAtLeft = 	isNodePresent(root.left, x);
+        if(isPresentAtLeft){
+            return true;
+        }
+
+
+        return isNodePresent(root.right, x);
+    }
+
 
 
     public static void main(String[] args) {
@@ -218,9 +234,10 @@ public class BinaryTreeUse {
         printTree(root);
         System.out.println("Number of nodes" + countNodes(root));
         System.out.println("Largest if " + largestNode(root));
-        System.out.println("number of leaves " + numOfLeaves(root));
+        System.out.println("number of leaves " + numOfLeafNodes(root));
         System.out.println("print AT DEPTH K ");
         printAtDeptK(root, 2);
+        System.out.println("is nodeavailable "+ isNodePresent(root, 5));
         //BinaryTreeNode<Integer> newRoot = removeLeaves(root);
         //printTree(newRoot);
         System.out.println("Is balanced"+ isBalanced(root));

@@ -1,14 +1,14 @@
 package codingninjas.Tree;
 
-
 import java.util.ArrayList;
 
-public class TreeNode<T> {
-    public T data;
-    public ArrayList<TreeNode<T>> children;
+public class TreeNode1<T> {
+    T data;
+    ArrayList<T> children;
 
-    public TreeNode(T data) {
+   public TreeNode1(T data){
         this.data = data;
         children = new ArrayList<>();
     }
+
 }
