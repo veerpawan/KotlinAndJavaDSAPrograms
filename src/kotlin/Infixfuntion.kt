@@ -1,4 +1,4 @@
-package kotlinExamples
+package kotlin
 
 class Infixfuntion {
 

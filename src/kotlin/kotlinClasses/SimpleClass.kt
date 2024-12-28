@@ -1,4 +1,4 @@
-package kotlinClasses
+package kotlin.kotlinClasses
 
 class SimpleClass {
 

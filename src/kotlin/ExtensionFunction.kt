@@ -1,4 +1,4 @@
-package kotlinExamples
+package kotlin
 
 fun main() {
     fun String.appendValue(): String {

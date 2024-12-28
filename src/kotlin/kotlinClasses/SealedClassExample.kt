@@ -1,4 +1,4 @@
-package kotlinClasses
+package kotlin.kotlinClasses
 
 sealed class SealedClassExample {
 
