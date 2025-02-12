@@ -1,15 +1,124 @@
-import { When, Then } from '@wdio/cucumber-framework';
-import { getPage } from '../../pageobjects/base/Baseutil.js';
-import IosOTPPage from '../../pageobjects/ios/ios.otp.page.js';
-import AndroidOTPPage from '../../pageobjects/android/android.otp.page.js';
+@otp @timer @resend
+Feature: OTP Timer and Resend Button
 
-const OTPPage = getPage({ ios: IosOTPPage, android: AndroidOTPPage });
+  Scenario: Verify OTP timer countdown and Resend OTP button functionality
+    Given I am on the OTP screen
+    When I observe the OTP timer
+    Then The timer should count down from 30 seconds
+    And The Resend OTP button should be disabled initially
+    When The timer reaches zero
+    Then The Resend OTP button should be enabled
+    When I click the Resend OTP button
+    Then A new OTP should be sent
 
-When("I enter the OTP {string} {string} {string} {string} {string} {string}", 
-    async function (this: any, otp1, otp2, otp3, otp4, otp5, otp6) {
-    await OTPPage.enterOTP([otp1, otp2, otp3, otp4, otp5, otp6]);
+
+import { Given, When, Then } from '@wdio/cucumber-framework';
+import OTPPage from '../pageobjects/otp.page';
+
+Given('I am on the OTP screen', async function () {
+    await OTPPage.waitForOTPPage();
 });
 
-Then("I click onto the verify button", async function (this: any) {
-    await OTPPage.verifyOTP();
+When('I observe the OTP timer', async function () {
+    this.initialTime = await OTPPage.getTimerText();
+    console.log(`Timer started at: ${this.initialTime}`);
 });
+
+Then('The timer should count down from 30 seconds', async function () {
+    await OTPPage.verifyTimerCountdown();
+});
+
+Then('The Resend OTP button should be disabled initially', async function () {
+    const isEnabled = await OTPPage.isResendOtpEnabled();
+    if (isEnabled) {
+        throw new Error('Resend OTP button should be disabled initially.');
+    }
+    console.log('Verified: Resend OTP button is disabled.');
+});
+
+When('The timer reaches zero', async function () {
+    await OTPPage.waitForTimerToEnd();
+});
+
+Then('The Resend OTP button should be enabled', async function () {
+    const isEnabled = await OTPPage.isResendOtpEnabled();
+    if (!isEnabled) {
+        throw new Error('Resend OTP button should be enabled after timer expires.');
+    }
+    console.log('Verified: Resend OTP button is enabled.');
+});
+
+When('I click the Resend OTP button', async function () {
+    await OTPPage.clickResendOtp();
+});
+
+Then('A new OTP should be sent', async function () {
+    const newOtpMessage = await OTPPage.getNewOtpMessage();
+    console.log(`New OTP received: ${newOtpMessage}`);
+});
+
+
+
+import { ChainablePromiseElement } from 'webdriverio';
+
+class OTPPage {
+    get timerElement(): ChainablePromiseElement<WebdriverIO.Element> {
+        return $('timer_selector'); // Replace with actual selector
+    }
+
+    get resendOtpButton(): ChainablePromiseElement<WebdriverIO.Element> {
+        return $('resend_otp_selector'); // Replace with actual selector
+    }
+
+    get otpMessage(): ChainablePromiseElement<WebdriverIO.Element> {
+        return $('otp_message_selector'); // Replace with actual selector
+    }
+
+    async waitForOTPPage() {
+        await this.timerElement.waitForDisplayed();
+    }
+
+    async getTimerText(): Promise<string> {
+        return this.timerElement.getText();
+    }
+
+    async verifyTimerCountdown() {
+        let previousTime = await this.getTimerText();
+        for (let i = 0; i < 5; i++) { // Check for 5 seconds
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            let currentTime = await this.getTimerText();
+            if (currentTime >= previousTime) {
+                throw new Error('Timer is not decreasing as expected.');
+            }
+            previousTime = currentTime;
+        }
+    }
+
+    async isResendOtpEnabled(): Promise<boolean> {
+        return this.resendOtpButton.isEnabled();
+    }
+
+    async waitForTimerToEnd() {
+        await browser.waitUntil(
+            async () => (await this.getTimerText()) === '00:00',
+            {
+                timeout: 35000,
+                timeoutMsg: 'Timer did not reach zero.',
+            }
+        );
+    }
+
+    async clickResendOtp() {
+        await this.resendOtpButton.click();
+    }
+
+    async getNewOtpMessage(): Promise<string> {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        return this.otpMessage.getText();
+    }
+}
+
+export default new OTPPage();
+
+
+
