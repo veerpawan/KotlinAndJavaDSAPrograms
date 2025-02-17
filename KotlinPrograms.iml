@@ -1,88 +1,77 @@
-Feature: OTP Resend Functionality
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.foundation.text.KeyboardOptions
 
-  Scenario: Resend OTP once the timer reaches 00:00
-    Given I am on the OTP page
-    When I wait for the OTP timer to finish
-    Then I should be able to click the Resend OTP butto
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasswordValidator() {
+    var password by remember { mutableStateOf("") }
 
+    // Check states for each password condition
+    val isMinLength by remember(password) { derivedStateOf { password.length >= 8 } }
+    val hasUppercase by remember(password) { derivedStateOf { password.any { it.isUpperCase() } } }
+    val hasDigit by remember(password) { derivedStateOf { password.any { it.isDigit() } } }
+    val hasSpecialChar by remember(password) { derivedStateOf { password.any { "!@#$%^&*()_+".contains(it) } } }
 
-import { Given, When, Then } from "@wdio/cucumber-framework";
-import OtpPage from "../pageobjects/otp.page";
+    // All conditions must be true to enable submission
+    val isAllValid = isMinLength && hasUppercase && hasDigit && hasSpecialChar
 
-Given(/^I am on the OTP page$/, async () => {
-    await OtpPage.open();
-});
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        OutlinedTextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text("Enter Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+            modifier = Modifier.fillMaxWidth()
+        )
 
-When(/^I wait for the OTP timer to finish$/, async () => {
-    await OtpPage.waitForTimerAndResendOtp();
-});
+        Spacer(modifier = Modifier.height(16.dp))
 
-Then(/^I should be able to click the Resend OTP button$/, async () => {
-    const isEnabled = await OtpPage.isResendOtpEnabled();
-    expect(isEnabled).toBe(true);
-});
+        // Dynamic checkbox list for password validation
+        PasswordCheckBox(label = "Minimum 8 characters", checked = isMinLength)
+        PasswordCheckBox(label = "At least 1 uppercase letter", checked = hasUppercase)
+        PasswordCheckBox(label = "At least 1 digit", checked = hasDigit)
+        PasswordCheckBox(label = "At least 1 special character (!@#$...)", checked = hasSpecialChar)
 
+        Spacer(modifier = Modifier.height(32.dp))
 
-
-import { ChainablePromiseElement } from "webdriverio";
-import Page from "./page";
-
-class OtpPage extends Page {
-    // Selectors (Update these with actual resource IDs or XPath)
-    get timerElement(): ChainablePromiseElement<WebdriverIO.Element> {
-        return $("id=your_timer_id"); // Update with actual ID or XPath
-    }
-
-    get resendOtpButton(): ChainablePromiseElement<WebdriverIO.Element> {
-        return $("id=your_resend_button_id"); // Update with actual ID or XPath
-    }
-
-    /**
-     * Function to get the current timer text
-     */
-    async getTimerText(): Promise<string> {
-        return (await this.timerElement.getText()).trim();
-    }
-
-    /**
-     * Function to check if the resend button is enabled
-     */
-    async isResendOtpEnabled(): Promise<boolean> {
-        return await this.resendOtpButton.isEnabled();
-    }
-
-    /**
-     * Function to wait for the timer to reach 00:00 and then click Resend OTP
-     */
-    async waitForTimerAndResendOtp(): Promise<void> {
-        await browser.waitUntil(async () => {
-            const timerText = await this.getTimerText();
-            console.log(`Current Timer: ${timerText}`);
-            return timerText === "00:00";
-        }, {
-            timeout: 20000, // Adjust based on your timer duration
-            timeoutMsg: "Timer did not reach zero!",
-        });
-
-        await browser.waitUntil(async () => {
-            const isEnabled = await this.isResendOtpEnabled();
-            console.log(`Resend OTP Enabled: ${isEnabled}`);
-            return isEnabled;
-        }, {
-            timeout: 5000, // Give some buffer time
-            timeoutMsg: "Resend OTP button did not enable!",
-        });
-
-        await this.resendOtpButton.click();
-        console.log("Resend OTP button clicked!");
-    }
-
-    /**
-     * Function to open the OTP page (if needed)
-     */
-    async open(): Promise<void> {
-        await browser.url("your-otp-page-url"); // Update with actual URL if applicable
+        Button(
+            onClick = { /* Submit logic */ },
+            enabled = isAllValid
+        ) {
+            Text("Submit")
+        }
     }
 }
 
-export default new OtpPage();
+@Composable
+fun PasswordCheckBox(label: String, checked: Boolean) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(vertical = 4.dp)
+    ) {
+        Checkbox(checked = checked, onCheckedChange = null)
+        Text(label, modifier = Modifier.padding(start = 8.dp))
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewPasswordValidator() {
+    PasswordValidator()
+}
