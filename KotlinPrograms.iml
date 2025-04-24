@@ -1,121 +1,29 @@
-
-import kotlinx.coroutines.test.runTest
-import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Test
-
-class PinViewModelTest {
-
-    private lateinit var viewModel: PinViewModel
-
-    @Before
-    fun setup() {
-        viewModel = PinViewModel()
-    }
-
-    @Test
-    fun `valid PIN and confirm PIN should set isPinValid to true`() = runTest {
-        viewModel.onPinChanged("1234")
-        viewModel.onConfirmPinChanged("1234")
-
-        assertTrue(viewModel.isPinValid.value)
-    }
-
-    @Test
-    fun `mismatched PINs should set isPinValid to false`() = runTest {
-        viewModel.onPinChanged("1234")
-        viewModel.onConfirmPinChanged("5678")
-
-        assertFalse(viewModel.isPinValid.value)
-    }
-
-    @Test
-    fun `incomplete PIN should set isPinValid to false`() = runTest {
-        viewModel.onPinChanged("12")
-        viewModel.onConfirmPinChanged("12")
-
-        assertFalse(viewModel.isPinValid.value)
-    }
-}
-
-
-
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
-
 @Composable
-fun PinSetupScreen(viewModel: PinViewModel = viewModel()) {
-    val pin by viewModel.pin.collectAsState()
-    val confirmPin by viewModel.confirmPin.collectAsState()
-    val isPinValid by viewModel.isPinValid.collectAsState()
+fun PreLoginScreen(viewModel: YourViewModel = viewModel()) {
+    val navController = rememberNavController()
+    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
 
-    Column(modifier = Modifier.padding(16.dp)) {
-        Text(text = "Setup your Smart Pass PIN")
+    var shouldRenderGraph by remember { mutableStateOf(false) }
+    var dynamicStartDestination by remember { mutableStateOf("onboarding") }
 
-        OutlinedTextField(
-            value = pin,
-            onValueChange = viewModel::onPinChanged,
-            label = { Text("Enter PIN") },
-            visualTransformation = PasswordVisualTransformation()
-        )
+    // Once we know the value, set the flag and route
+    LaunchedEffect(isLoggedIn) {
+        dynamicStartDestination = if (isLoggedIn) "login" else "onboarding"
+        shouldRenderGraph = true
+    }
 
-        Spacer(modifier = Modifier.height(8.dp))
-
-        OutlinedTextField(
-            value = confirmPin,
-            onValueChange = viewModel::onConfirmPinChanged,
-            label = { Text("Confirm PIN") },
-            visualTransformation = PasswordVisualTransformation()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        Button(onClick = { /* Handle PIN Submission */ }, enabled = isPinValid) {
-            Text(text = "Submit")
+    if (shouldRenderGraph) {
+        NavHost(
+            navController = navController,
+            startDestination = dynamicStartDestination
+        ) {
+            composable("onboarding") { OnboardingScreen(navController) }
+            composable("login") { LoginScreen(navController) }
+        }
+    } else {
+        // Show a splash/loading inside PreLoginScreen
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            CircularProgressIndicator()
         }
     }
 }
-
-
-
-import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-
-class PinViewModel : ViewModel() {
-
-    private val _pin = MutableStateFlow("")
-    val pin: StateFlow<String> = _pin
-
-    private val _confirmPin = MutableStateFlow("")
-    val confirmPin: StateFlow<String> = _confirmPin
-
-    private val _isPinValid = MutableStateFlow(false)
-    val isPinValid: StateFlow<Boolean> = _isPinValid
-
-    fun onPinChanged(newPin: String) {
-        if (newPin.length <= 4) {
-            _pin.value = newPin
-            validatePin()
-        }
-    }
-
-    fun onConfirmPinChanged(newPin: String) {
-        if (newPin.length <= 4) {
-            _confirmPin.value = newPin
-            validatePin()
-        }
-    }
-
-    private fun validatePin() {
-        _isPinValid.value = _pin.value.length == 4 && _pin.value == _confirmPin.value
-    }
-}
-
-
-
