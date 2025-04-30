@@ -1,29 +1,40 @@
-@Composable
-fun PreLoginScreen(viewModel: YourViewModel = viewModel()) {
-    val navController = rememberNavController()
-    val isLoggedIn by viewModel.isLoggedIn.collectAsState()
+class PinNumberValidationUseCase {
 
-    var shouldRenderGraph by remember { mutableStateOf(false) }
-    var dynamicStartDestination by remember { mutableStateOf("onboarding") }
-
-    // Once we know the value, set the flag and route
-    LaunchedEffect(isLoggedIn) {
-        dynamicStartDestination = if (isLoggedIn) "login" else "onboarding"
-        shouldRenderGraph = true
+    operator fun invoke(pin: String): PinValidationResult {
+        if (isSequence(pin)) return PinValidationResult.SEQUENCE_SERIES
+        if (isRepeated(pin)) return PinValidationResult.REPEATED_NUMBER
+        if (isMirrored(pin)) return PinValidationResult.MIRRORED_SERIES
+        if (isReversed(pin)) return PinValidationResult.REVERSED_SERIES
+        if (isRepeatingDouble(pin)) return PinValidationResult.REPEATING_DOUBLE
+        
+        return PinValidationResult.VALID
     }
 
-    if (shouldRenderGraph) {
-        NavHost(
-            navController = navController,
-            startDestination = dynamicStartDestination
-        ) {
-            composable("onboarding") { OnboardingScreen(navController) }
-            composable("login") { LoginScreen(navController) }
+    private fun isSequence(pin: String): Boolean {
+        for (i in 1 until pin.length) {
+            if (pin[i].digitToInt() != pin[i - 1].digitToInt() + 1) return false
         }
-    } else {
-        // Show a splash/loading inside PreLoginScreen
-        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            CircularProgressIndicator()
+        return true
+    }
+
+    private fun isRepeated(pin: String): Boolean {
+        return pin.toSet().size == 1
+    }
+
+    private fun isMirrored(pin: String): Boolean {
+        return pin == pin.reversed()
+    }
+
+    private fun isReversed(pin: String): Boolean {
+        for (i in 1 until pin.length) {
+            if (pin[i].digitToInt() != pin[i - 1].digitToInt() - 1) return false
         }
+        return true
+    }
+
+    private fun isRepeatingDouble(pin: String): Boolean {
+        if (pin.length % 2 != 0) return false
+        val half = pin.length / 2
+        return pin.substring(0, half) == pin.substring(half)
     }
 }
