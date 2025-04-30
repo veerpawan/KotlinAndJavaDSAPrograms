@@ -1,40 +1,9 @@
-class PinNumberValidationUseCase {
-
-    operator fun invoke(pin: String): PinValidationResult {
-        if (isSequence(pin)) return PinValidationResult.SEQUENCE_SERIES
-        if (isRepeated(pin)) return PinValidationResult.REPEATED_NUMBER
-        if (isMirrored(pin)) return PinValidationResult.MIRRORED_SERIES
-        if (isReversed(pin)) return PinValidationResult.REVERSED_SERIES
-        if (isRepeatingDouble(pin)) return PinValidationResult.REPEATING_DOUBLE
-        
-        return PinValidationResult.VALID
-    }
-
-    private fun isSequence(pin: String): Boolean {
-        for (i in 1 until pin.length) {
-            if (pin[i].digitToInt() != pin[i - 1].digitToInt() + 1) return false
-        }
+private fun isSameNumberRepeated(pin: String): Boolean {
+    // Case 1: 3 or more same digits
+    if (pin.groupingBy { it }.eachCount().any { it.value >= 3 }) {
         return true
     }
 
-    private fun isRepeated(pin: String): Boolean {
-        return pin.toSet().size == 1
-    }
-
-    private fun isMirrored(pin: String): Boolean {
-        return pin == pin.reversed()
-    }
-
-    private fun isReversed(pin: String): Boolean {
-        for (i in 1 until pin.length) {
-            if (pin[i].digitToInt() != pin[i - 1].digitToInt() - 1) return false
-        }
-        return true
-    }
-
-    private fun isRepeatingDouble(pin: String): Boolean {
-        if (pin.length % 2 != 0) return false
-        val half = pin.length / 2
-        return pin.substring(0, half) == pin.substring(half)
-    }
+    // Case 2: AABB pattern for 4-digit PINs
+    return pin.length == 4 && pin[0] == pin[1] && pin[2] == pin[3] && pin[0] != pin[2]
 }
