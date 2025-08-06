@@ -1,9 +1,211 @@
-private fun isSameNumberRepeated(pin: String): Boolean {
-    // Case 1: 3 or more same digits
-    if (pin.groupingBy { it }.eachCount().any { it.value >= 3 }) {
-        return true
+
+import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
+import org.koin.androidx.compose.koinViewModel
+
+@Composable
+fun GenerateSoftTokenScreen(
+    redirectToLoginScreen: () -> Unit,
+    viewModel: GenerateSoftTokenViewModel = koinViewModel()
+) {
+    val navSharedViewModel: NavSharedViewModel =
+        koinNavViewModel(LocalContext.current as AppCompatActivity)
+    val uiState by viewModel.uiState.collectAsState()
+
+    // Stable callbacks for recomposition efficiency
+    val currentRedirectToLoginScreen by rememberUpdatedState(redirectToLoginScreen)
+    val onBack: () -> Unit = { currentRedirectToLoginScreen() }
+
+    // State hoisting
+    val isLoading = uiState.isLoading
+    val resetTimerFlag = uiState.resetTimer
+    val siteCoreData = uiState.generateTokenData.firstOrNull()
+    val softToken = uiState.softToken
+    var totalTimeInSeconds by remember { mutableIntStateOf(PreLoginConstants.SOFT_TOKEN_TIMER) }
+    var resetTimer by remember { mutableStateOf(false) }
+    var hasLaunched by remember { mutableStateOf(false) }
+
+    // Loader effect
+    LaunchedEffect(isLoading) {
+        navSharedViewModel.showLoader(isLoading)
     }
 
-    // Case 2: AABB pattern for 4-digit PINs
-    return pin.length == 4 && pin[0] == pin[1] && pin[2] == pin[3] && pin[0] != pin[2]
+    // Timer reset effect
+    LaunchedEffect(resetTimerFlag) {
+        if (hasLaunched && resetTimerFlag) {
+            resetTimer = true
+            totalTimeInSeconds = PreLoginConstants.SOFT_TOKEN_TIMER
+            viewModel.handleIntent(GenerateSoftTokenIntent.ResetTimer)
+        }
+        hasLaunched = true
+    }
+
+    // Generate PIN only when data loads
+    LaunchedEffect(siteCoreData) {
+        if (siteCoreData != null) {
+            viewModel.handleIntent(
+                GenerateSoftTokenIntent.GenerateNewPin(navSharedViewModel.seed.value)
+            )
+        }
+    }
+
+    BackHandler(onBack)
+
+    GenerateSoftTokenContent(
+        siteCoreData = siteCoreData,
+        softToken = softToken,
+        totalTimeInSeconds = totalTimeInSeconds,
+        resetTimer = resetTimer,
+        onBack = onBack
+    ) {
+        // Timer completion handler
+        // Typically: set resetTimer = true or inform ViewModel
+    }
+}
+
+@Composable
+private fun GenerateSoftTokenContent(
+    siteCoreData: GenerateTokenData?,
+    softToken: String,
+    totalTimeInSeconds: Int,
+    resetTimer: Boolean,
+    onBack: () -> Unit,
+    onTimerCompletion: () -> Unit
+) {
+    BaseColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = LocalGlobalAppDimensions.current.layoutDimens.dp12,
+                start = LocalGlobalAppDimensions.current.layoutDimens.dp24,
+                end = LocalGlobalAppDimensions.current.layoutDimens.dp24,
+                bottom = LocalGlobalAppDimensions.current.layoutDimens.dp24
+            ),
+        verticalArrangement = Arrangement.SpaceBetween
+    ) {
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .verticalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            GenerateSoftTokenHeader(siteCoreData, onBack)
+            BaseSpacer(modifier = Modifier.height(LocalGlobalAppDimensions.current.layoutDimens.dp48))
+            GenerateSoftTokenTimer(
+                siteCoreData = siteCoreData,
+                softToken = softToken,
+                totalTimeInSeconds = totalTimeInSeconds,
+                resetTimer = resetTimer,
+                onTimerCompletion = onTimerCompletion
+            )
+        }
+        GenerateSoftTokenAlert(siteCoreData)
+    }
+}
+
+@Composable
+private fun GenerateSoftTokenHeader(
+    siteCoreData: GenerateTokenData?,
+    onBack: () -> Unit
+) {
+    ScreenHeaderActions(
+        screenHeaderActionsBuilder = screenHeaderActionsBuilder {
+            type = ScreenHeaderActionsBuilder.ScreenHeaderActionsType.CenterTitle
+            titleText = findSitecoreNestedComponentById(
+                itemId = PreLoginSitecoreUtility.SiteCoreIdMapping.GENERATE_TOKEN.value,
+                components = siteCoreData?.component,
+                getItems = { it.fields },
+                getItemId = { it.id },
+                getProperty = { it.title.orEmpty() }
+            )
+            leadingIcon = IconViewBuilder {
+                sizeType = IconViewBuilder.IconViewSize.MediumLarge
+                icon = IconHelper.Common.crossIcon.isDrawableResourceId()
+                tint = SystemColor.SysColorIconActive
+                onActionOnClick = onBack
+                uiAccessibilityInfo = UIAccessibilityInfo(
+                    contentDescription = PreLoginConstants.Automation.CROSS_BUTTON.identifier
+                )
+            }
+            accessibilityInfo = ScreenHeaderActionsBuilder.ScreenHeaderActionsType.CenterTitle.AccessibilityInfo {
+                titleContentDescription = UIAccessibilityInfo(
+                    contentDescription = AutomationUtils.get(
+                        AutomationUtils.ComponentType.LABEL,
+                        AutomationUtils.CommonAccessibilityIds.SCREEN_TITLE
+                    )
+                )
+            }
+        }
+    )
+}
+
+@Composable
+private fun GenerateSoftTokenTimer(
+    siteCoreData: GenerateTokenData?,
+    softToken: String,
+    totalTimeInSeconds: Int,
+    resetTimer: Boolean,
+    onTimerCompletion: () -> Unit
+) {
+    val initialToken = remember { softToken }
+    val initialTime = remember { totalTimeInSeconds }
+    val initialReset = remember { resetTimer }
+
+    TimerPin(
+        timerPinBuilder = TimerPinBuilder(
+            description = findSitecoreNestedComponentById(
+                itemId = PreLoginSitecoreUtility.SiteCoreIdMapping.TOKEN_ID.value,
+                components = siteCoreData?.component,
+                getItems = { it.fields },
+                getItemId = { it.id },
+                getProperty = { it.title.orEmpty() }
+            ),
+            pin = initialToken.orEmpty(),
+            totalTimeInSeconds = initialTime,
+            timerStatus = PreLoginConstants.RESET_TIMER,
+            resetTimer = initialReset,
+            onTimerCompletion = onTimerCompletion,
+            timerTextAccessibilityInfo = UIAccessibilityInfo(
+                contentDescription = PreLoginConstants.Automation.COUNT_DOWN_ID.identifier
+            ),
+            progressBarAccessibilityInfo = UIAccessibilityInfo(
+                contentDescription = PreLoginConstants.Automation.PROGRESS_BAR_DESCRIPTION.identifier
+            ),
+            pinAccessibilityInfo = UIAccessibilityInfo(
+                contentDescription = PreLoginConstants.Automation.TOTP_ID.identifier
+            )
+        )
+    )
+}
+
+@Composable
+private fun GenerateSoftTokenAlert(siteCoreData: GenerateTokenData?) {
+    AlertInline(
+        alertInlineBuilder = AlertInlineBuilder(
+            leadingIcon = R.drawable.info_fill.isDrawableResourceId(),
+            accessibilityInfo = AlertInlineBuilder.AccessibilityInfo(
+                titleAccessibilityInfo = UIAccessibilityInfo(
+                    contentDescription = AutomationUtils.get(
+                        AutomationUtils.ComponentType.ALERT,
+                        AutomationUtils.CommonAccessibilityIds.DESCRIPTION
+                    )
+                )
+            )
+        ),
+        body = {
+            findSitecoreNestedComponentById(
+                itemId = PreLoginSitecoreUtility.SiteCoreIdMapping.INFO_ALERT.value,
+                components = siteCoreData?.component,
+                getItems = { it.fields },
+                getItemId = { it.id },
+                getProperty = { it.title.orEmpty() }
+            )
+        },
+        hasTrailingIcon = false
+    )
 }
