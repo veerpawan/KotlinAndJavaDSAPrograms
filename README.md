@@ -1,60 +1,36 @@
-@OptIn(ExperimentalCoroutinesApi::class)
-class SaveUserIdUseCaseTest {
+@Test
+fun `when domain valid and QR not expired then ValidateQRCode intent is triggered`() = runTest {
+    // GIVEN
+    val response = "qr-response"
+    val intent = ValidateQRCodeIntent.ValidateExpiryTime(/* mock data */)
 
-    private lateinit var localStorageRepository: FakeLocalStorageRepositoryImpl
-    private lateinit var userInfoKeystoreIdentifierUseCase: UserInfoKeystoreIdentifierUseCase
-    private lateinit var saveUserIdUseCase: SaveUserIdUseCase
+    val qrData = QrLoginData(
+        expiry = 123456789L
+    )
 
-    @Before
-    fun setUp() {
-        localStorageRepository = FakeLocalStorageRepositoryImpl()
+    every { validateDomainUseCase(response) } returns true
+    every { extractQrLoginDataUseCase(response) } returns qrData
+    every { qrCodeLoginExpiredUseCase(qrData.expiry.toString()) } returns true
 
-        // Fake identifier use case (deterministic)
-        userInfoKeystoreIdentifierUseCase = mockk()
-        every {
-            userInfoKeystoreIdentifierUseCase("testKey")
-        } returns "secureIdentifier"
+    val spyViewModel = spyk(
+        QrLoginViewModel(
+            validateDomainUseCase,
+            extractQrLoginDataUseCase,
+            qrCodeLoginExpiredUseCase
+        ),
+        recordPrivateCalls = true
+    )
 
-        saveUserIdUseCase = SaveUserIdUseCase(
-            localStorageRepository,
-            userInfoKeystoreIdentifierUseCase
-        )
+    // WHEN
+    spyViewModel.handleQrLoginUrl(response, intent)
+    advanceUntilIdle()
 
-        // 🔑 THIS IS THE KEY PART
-        mockkObject(AES)
-    }
-
-    @After
-    fun tearDown() {
-        unmockkObject(AES)
-    }
-
-    @Test
-    fun `invoke encrypts and saves user id successfully`() = runTest {
-        // Arrange
-        val data = "testUserId"
-        val encryptedValue = "encryptedUserId"
-        val iv = "encryptionIV".toByteArray()
-
-        every {
-            AES.encryptWithAes(data, "secureIdentifier", false)
-        } returns Pair(encryptedValue, iv)
-
-        // Act
-        val result = saveUserIdUseCase(data, "testKey")
-
-        // Assert - return value
-        assertEquals(encryptedValue, result)
-
-        // Assert - storage
-        assertEquals(
-            encryptedValue,
-            localStorageRepository.getString(UserInfo.UserId.userInfo.first)
-        )
-
-        assertEquals(
-            iv,
-            localStorageRepository.getByteArray(UserInfo.UserId.userInfo.second)
+    // THEN
+    verify {
+        spyViewModel["handleIntent"](
+            ValidateQRCodeIntent.ValidateQRCode(intent, qrData)
         )
     }
+
+    assertFalse(spyViewModel.uiState.value.invalidQR)
 }
