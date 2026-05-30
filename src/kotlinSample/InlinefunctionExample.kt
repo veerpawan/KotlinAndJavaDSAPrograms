@@ -1,9 +1,0 @@
-package kotlinSample
-
-class InlinefunctionExample {
-
-
-
-
-}
-
