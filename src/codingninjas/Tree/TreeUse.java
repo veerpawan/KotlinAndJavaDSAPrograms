@@ -1,8 +1,5 @@
 package codingninjas.Tree;
 
-import codingninjas.Queue.QueueEmptyException;
-import sun.reflect.generics.tree.Tree;
-
 import java.util.Scanner;
 
 public class TreeUse {

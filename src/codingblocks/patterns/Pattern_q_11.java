@@ -1,6 +1,5 @@
 package codingblocks.patterns;
 
-import sun.nio.ch.sctp.SctpNet;
 
 import java.util.Scanner;
 

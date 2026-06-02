@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d14d503f-2a98-42a8-8d0c-bab47872c722" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/KotlinAndJavaDSAPrograms.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/ArrayReverse.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/DuplicateInArray.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/FindMissingNumber.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/IntersactTwoArray.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/KedanceAlgo.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/MoveAllZero.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/ReverseArray.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/Sort012.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/arrays/TwoSum.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/hashset-hasmap/ElementFrequency.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/hashset-hasmap/FirstRepeatingElement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/hashset-hasmap/PairOfSum.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/stack/NextGreaterElement.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/stack/ValidParanthesis.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/strings/PalindoromeString.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/kotlinDSA/strings/ReverseString.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/KotlinJavaRuntime.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/codingblocks/patterns/Pattern_q_11.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/codingblocks/patterns/Pattern_q_11.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/codingninjas/Tree/TreeUse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/codingninjas/Tree/TreeUse.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Kotlin Class" />
+        <option value="Kotlin File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "veerpawan"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/veerpawan/KotlinAndJavaDSAPrograms.git",
+    "accountId": "af08c531-b6f9-4738-935c-dccfbf2f4ada"
+  }
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "customColor": "",
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="3EWHQHVGDic27OVCrNhn6txOqIT" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Kotlin.ArrayReverseKt.executor": "Run",
+    "Kotlin.DuplicateInArrayKt.executor": "Run",
+    "Kotlin.ElementFrequencyKt.executor": "Run",
+    "Kotlin.FindMissingNumberKt.executor": "Run",
+    "Kotlin.FirstRepeatingElementKt.executor": "Run",
+    "Kotlin.IntersactTwoArrayKt.executor": "Run",
+    "Kotlin.KedanceAlgoKt.executor": "Run",
+    "Kotlin.MoveAllZeroKt.executor": "Run",
+    "Kotlin.NextGreaterElementKt.executor": "Run",
+    "Kotlin.PairOfSumKt.executor": "Run",
+    "Kotlin.PalindoromeStringKt.executor": "Run",
+    "Kotlin.ReverseArrayKt.executor": "Run",
+    "Kotlin.ReverseStringKt.executor": "Run",
+    "Kotlin.Sort012Kt.executor": "Run",
+    "Kotlin.TwoSumKt.executor": "Run",
+    "Kotlin.ValidParanthesisKt.executor": "Run",
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="K2MoveDeclarationsDialog.RECENT_PACKAGE_KEY">
+      <recent name="kotlinDSA.strings" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Kotlin.KedanceAlgoKt">
+    <configuration name="ArrayReverseKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlinDSA.arrays.ArrayReverseKt" />
+      <module name="KotlinAndJavaDSAPrograms" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="KedanceAlgoKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlinDSA.arrays.KedanceAlgoKt" />
+      <module name="KotlinAndJavaDSAPrograms" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="NextGreaterElementKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlinDSA.stack.NextGreaterElementKt" />
+      <module name="KotlinAndJavaDSAPrograms" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="PairOfSumKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlinDSA.hashset-hasmap.PairOfSumKt" />
+      <module name="KotlinAndJavaDSAPrograms" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ValidParanthesisKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="kotlinDSA.stack.ValidParanthesisKt" />
+      <module name="KotlinAndJavaDSAPrograms" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Kotlin.KedanceAlgoKt" />
+        <item itemvalue="Kotlin.NextGreaterElementKt" />
+        <item itemvalue="Kotlin.ValidParanthesisKt" />
+        <item itemvalue="Kotlin.ArrayReverseKt" />
+        <item itemvalue="Kotlin.PairOfSumKt" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d14d503f-2a98-42a8-8d0c-bab47872c722" name="Changes" comment="" />
+      <created>1780287387840</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1780287387840</updated>
+    </task>
+    <servers />
+  </component>
+</project>
